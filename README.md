@@ -1,6 +1,6 @@
 #simple_shell
 
-this project implements a simple shell program in C and I and my partner will be work together to achieve success.
+this project implements a simple shell program in C and I and my partner will be working together to achieve success.
 
 Features
 Executes basic commands.
