@@ -16,9 +16,23 @@ void exec_command(const char *input)
 	}
 	else if (baby_pid == 0)
 	{
-		execlp(input, input, (char *) NULL);
-		perror("Execution error");
-		exit(EXIT_FAILURE);
+		char **args = malloc(2 * sizeof(char *));
+		if (args == NULL)
+		{
+			perror("malloc");
+			exit(EXIT_FAILURE);
+		}
+
+		args[0] = (char *)input;
+		args[1] = NULL;
+
+		if (execve(input, args, environ) == -1)
+		{
+			perror("Execution error");
+			exit(EXIT_FAILURE);
+		}
+
+		free(args);
 	}
 	else
 	{

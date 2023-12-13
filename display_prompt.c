@@ -6,5 +6,5 @@
  */
 void display_prompt(void)
 {
-	print("Pro_Shell$ ");
+	print("b&msh$ ");
 }

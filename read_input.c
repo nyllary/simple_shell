@@ -7,7 +7,7 @@
  *
  *Return: Nothing
  */
-void read_input(char *input, size_t size)
+void *read_input(char *input, size_t size)
 {
 
 	if (fgets(input, size, stdin) == NULL)
@@ -26,5 +26,6 @@ void read_input(char *input, size_t size)
 	else
 	{
 		input[strcspn(input, "\n")] = '\0';
+		return (input);
 	}
 }

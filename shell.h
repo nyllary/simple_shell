@@ -8,9 +8,11 @@
 #include <stdbool.h>
 #include <sys/wait.h>
 
+extern char **environ;
+
 void print(const char *myformat);
 void display_prompt(void);
-void read_input(char *input, size_t size);
+void *read_input(char *input, size_t size);
 void exec_command(const char *input);
 
 #endif
