@@ -1,12 +1,6 @@
-#include <stdio.h>
-#include <stdarg.h>
+#include "shell.h"
 
-void print_f(const char *format, ...)
+void print(const char *myformat)
 {
-	va_list args;
-	va_start(args, format);
-
-	vprintf(format, args);
-
-	va_end(args);
+	write(STDOUT_FILENO, myformat, strlen(myformat));
 }
