@@ -1,47 +1,27 @@
 #include "shell.h"
 /**
- * my_execve - executes command
- * @path: directory of the executable files
- * @argv: argument vector
+ *exec_command - this funtions executes all user inputs
  *
- * Return: The number of executable commands found
+ *@input: The command to be executed
+ *Return: nothing
  */
-
-int my_execve(const char *path, char *const argv[])
+void exec_command(const char *input)
 {
-	char current_dir[PATH_MAX];
+	pid_t baby_pid = fork();
 
-	/* Check if executable exists and has execute permission */
-	if (access(path, F_OK | X_OK) == -1)
+	if (baby_pid == -1)
 	{
-		perror("Error: Executable not found or permission denied");
-		return (EXIT_FAILURE);
+		perror("fork");
+		exit(EXIT_FAILURE);
 	}
-	/* Save the current directory */
-	if (getcwd(current_dir, sizeof(current_dir)) == NULL)
-		return (EXIT_FAILURE);
-	/* Change to the desired directory (optional) */
-	if (chdir(".") == -1)
-		return (EXIT_FAILURE);
-
-	/* Call execve with environment */
-	if (execve(path, argv, environ) == -1)
+	else if (baby_pid == 0)
 	{
-		perror("Error");
-		chdir(current_dir);
-		return (EXIT_FAILURE);
+		execlp(input, input, (char *) NULL);
+		perror("Execution error");
+		exit(EXIT_FAILURE);
 	}
-	return (EXIT_FAILURE);
-}
-/**
- * main - entry point
- *
- * Return: Always 0(Success)
- */
-int main(void)
-{
-	char *argv[] = {"/bin/ls", "-l", "/usr/", NULL};
-
-	/* Use the custom_execve function */
-	return (my_execve(argv[0], argv));
+	else
+	{
+		wait(NULL);
+	}
 }
