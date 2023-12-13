@@ -17,6 +17,7 @@ void exec_command(const char *input)
 	else if (baby_pid == 0)
 	{
 		char **args = malloc(2 * sizeof(char *));
+
 		if (args == NULL)
 		{
 			perror("malloc");

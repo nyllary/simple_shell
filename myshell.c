@@ -8,6 +8,12 @@ int main(void)
 {
 	char input[128];
 
+	if (!isatty(fileno(stdin)))
+	{
+		fgets(input, sizeof(input), stdin);
+		exec_command(input);
+		return (0);
+	}
 	while (true)
 	{
 		display_prompt();

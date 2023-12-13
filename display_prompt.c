@@ -1,6 +1,6 @@
 #include "shell.h"
 /**
- *display_promt - promp to display to user to enter commands
+ *display_prompt - promp to display to user to enter commands
  *
  * Return: nothing
  */
