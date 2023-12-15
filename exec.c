@@ -1,22 +1,20 @@
 #include "shell.h"
 /**
- * my_execve - executes command
- * @path: directory of the executable files
- * @argv: argument vector
+ *exec_command - this funtions executes all user inputs
  *
- * Return: The number of executable commands found
+ *@input: The command to be executed
+ *Return: nothing
  */
-
-int my_execve(const char *path, char *const argv[])
+void exec_command(const char *input)
 {
-	char current_dir[PATH_MAX];
+	pid_t baby_pid = fork();
 
-	/* Check if executable exists and has execute permission */
-	if (access(path, F_OK | X_OK) == -1)
+	if (baby_pid == -1)
 	{
-		perror("Error: Executable not found or permission denied");
-		return (EXIT_FAILURE);
+		perror("fork");
+		exit(EXIT_FAILURE);
 	}
+<<<<<<< HEAD
 	/* Save the current directory */
 	if (getcwd(current_dir, sizeof(current_dir)) == NULL)
 		return (EXIT_FAILURE);
@@ -25,11 +23,34 @@ int my_execve(const char *path, char *const argv[])
 		return (EXIT_FAILURE);
 	/* Call execve with environment */
 	if (execve(path, argv, environ) == -1)
+=======
+	else if (baby_pid == 0)
 	{
-		perror("Error");
-		chdir(current_dir);
-		return (EXIT_FAILURE);
+		char **args = malloc(2 * sizeof(char *));
+
+		if (args == NULL)
+		{
+			perror("malloc");
+			exit(EXIT_FAILURE);
+		}
+
+		args[0] = (char *)input;
+		args[1] = NULL;
+
+		if (execve(input, args, environ) == -1)
+		{
+			perror("Execution error");
+			exit(EXIT_FAILURE);
+		}
+
+		free(args);
 	}
+	else
+>>>>>>> 50e329c2cf8da5bb0ae32dbb0a49229d5f84af50
+	{
+		wait(NULL);
+	}
+<<<<<<< HEAD
 	return (EXIT_FAILURE);
 }
 /**
@@ -69,4 +90,6 @@ void execute_command(char *command, char *args[])
 		else
 			print_f("Child process terminated abnormally\n");
 	}
+=======
+>>>>>>> 50e329c2cf8da5bb0ae32dbb0a49229d5f84af50
 }
