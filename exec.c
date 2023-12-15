@@ -23,7 +23,6 @@ int my_execve(const char *path, char *const argv[])
 	/* Change to the desired directory (optional) */
 	if (chdir(".") == -1)
 		return (EXIT_FAILURE);
-
 	/* Call execve with environment */
 	if (execve(path, argv, environ) == -1)
 	{
@@ -34,14 +33,40 @@ int my_execve(const char *path, char *const argv[])
 	return (EXIT_FAILURE);
 }
 /**
- * main - entry point
+ * execute_command - execute commands from the user
+ * @command: command to be executed
+ * @args: argument vector
  *
- * Return: Always 0(Success)
+ * Return: Nothing
  */
-int main(void)
+void execute_command(char *command, char *args[])
 {
-	char *argv[] = {"/bin/ls", "-l", "/usr/", NULL};
+	pid_t pid = fork();
+	int stat;
 
-	/* Use the custom_execve function */
-	return (my_execve(argv[0], argv));
+	if (pid == -1)
+	{
+		perror("Error forking process");
+		exit(EXIT_FAILURE);
+	}
+	else if (pid == 0)
+	{	/* Child process */
+		/* Execute the command in the child process */
+		if (execve(command, args, environ) == -1)
+		{
+			perror("Error executing command");
+			exit(EXIT_FAILURE);
+		}
+	}
+	else
+	{  /* Parent process */
+		/* Wait for the child process to complete */
+		waitpid(pid, &stat, 0);
+
+		/* Optionally, you can print the exit status of the child process */
+		if (WIFEXITED(stat))
+			print_f("Child process exited with status %d\n", WEXITSTATUS(stat));
+		else
+			print_f("Child process terminated abnormally\n");
+	}
 }
