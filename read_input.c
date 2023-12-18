@@ -9,8 +9,9 @@
  */
 void *read_input(char *input, size_t size)
 {
+	ssize_t nread = getline(&input, &size, stdin);
 
-	if (fgets(input, size, stdin) == NULL)
+	if (nread == -1)
 	{
 		if (feof(stdin))
 		{

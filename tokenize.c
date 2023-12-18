@@ -10,12 +10,12 @@
 void tokenize(char *input, char *tokens[])
 {
 	int i = 0;
-	char *token = strtok(input, " \t\n");
+	char *token = strtok(input, " ");
 
 	while (token != NULL && i < MAX_TOKENS - 1)
 	{
 		tokens[i] = strdup(token);
-		token = strtok(NULL, " \t\n");
+		token = strtok(NULL, " ");
 		i++;
 	}
 	tokens[i] = NULL;

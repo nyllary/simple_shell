@@ -5,7 +5,12 @@
  *
  *  Return: void (no return value)
  */
-void print(const char *myformat)
+void print(const char *myformat, ...)
 {
-	write(STDOUT_FILENO, myformat, strlen(myformat));
+	va_list args;
+
+	va_start(args, myformat);
+	vprintf(myformat, args);
+
+	va_end(args);
 }

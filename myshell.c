@@ -6,20 +6,22 @@
  */
 int main(void)
 {
-	char input[128];
+	char input[PATH_MAX];
+	char *argv[] = {"/bin/ls", "-l", "/usr/", NULL};
 
 	if (!isatty(fileno(stdin)))
 	{
 		fgets(input, sizeof(input), stdin);
-		exec_command(input);
+		tokenize(input, argv);
+		execute(argv[0], argv);
 		return (0);
 	}
 	while (true)
 	{
 		display_prompt();
 		read_input(input, sizeof(input));
-		exec_command(input);
+		tokenize(input, argv);
+		execute(argv[0], argv);
 	}
-
 	return (0);
 }
